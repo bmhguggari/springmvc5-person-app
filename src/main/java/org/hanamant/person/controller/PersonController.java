@@ -33,7 +33,7 @@ public class PersonController {
 	public PersonController() {
 	}
 
-	@RequestMapping(path="/index", method=RequestMethod.GET)
+	@RequestMapping(path="/", method=RequestMethod.GET)
 	public String getHome() {
 		logger.info("Home page has been requested by client");
 		return "index";
@@ -51,6 +51,7 @@ public class PersonController {
 		logger.info("Create Person POST method");
 		try {
 			personService.createPerson(person);
+			m.addAttribute("successMessage" , "Person details has been created!!!");
 		} catch(Exception ex) {
 			m.addAttribute("errorMessage" , ex.getMessage());
 			return "failure";
@@ -71,6 +72,8 @@ public class PersonController {
 			String status = personService.deletePerson(Integer.parseInt(id));
 			if(!"success".equalsIgnoreCase(status)) {
 				throw new Exception("Could not find person");
+			} else {
+				m.addAttribute("successMessage" , "Person details has been deleted!!!");
 			}
 		} catch(Exception ex) {
 			m.addAttribute("errorMessage" , ex.getMessage());
@@ -97,6 +100,7 @@ public class PersonController {
 		logger.info("Update person POST method");
 		try {
 			personService.updatePerson(person);
+			m.addAttribute("successMessage" , "Person details has been updated!!!");
 		} catch (Exception ex) {
 			m.addAttribute("errorMessage" , ex.getMessage());
 			return "failure";
